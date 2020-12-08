@@ -1,6 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const colors = {
+  Cyan: '#2aa198',
+  Blue: '#268bd2',
+  Magenta: '#d33682',
+  Orange: '#cb4b16',
+};
+
 const WhiteText = styled.Text`
   color: white;
   font-weight: bold;
@@ -14,10 +21,16 @@ const ColorContainer = styled.View`
   align-items: center;
 `;
 
-const ColorBox = ({ name, value }) => (
-  <ColorContainer key={name} color={value}>
-    <WhiteText>{`${name}: ${value}`}</WhiteText>
-  </ColorContainer>
-);
+const ColorBox = () => {
+  return Object.entries(colors).map((color) => {
+    const [name, value] = color;
+
+    return (
+      <ColorContainer key={name} color={value}>
+        <WhiteText>{`${name}: ${value}`}</WhiteText>
+      </ColorContainer>
+    );
+  });
+};
 
 export default ColorBox;
