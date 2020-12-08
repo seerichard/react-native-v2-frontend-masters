@@ -8,12 +8,12 @@ const colors = {
   Orange: '#cb4b16',
 };
 
-const WhiteText = styled.Text`
+export const WhiteText = styled.Text`
   color: white;
   font-weight: bold;
 `;
 
-const ColorContainer = styled.View`
+export const ColorContainer = styled.View`
   color: white;
   margin: 10px 20px 0;
   padding: 10px;
