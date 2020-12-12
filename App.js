@@ -1,14 +1,17 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import ColorBox from './components/ColorBox';
 import SolarizedBox from './components/SolarizedBox';
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ColorBox />
-      <SolarizedBox />
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView style={styles.safeArea}>
+        <ColorBox />
+        <SolarizedBox />
+      </SafeAreaView>
+    </NavigationContainer>
   );
 };
 
