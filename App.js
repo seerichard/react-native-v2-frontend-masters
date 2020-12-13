@@ -1,25 +1,20 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import ColorBox from './components/ColorBox';
-import SolarizedBox from './components/SolarizedBox';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from './screens/Home';
+import ColorPalette from './screens/ColorPalette';
+
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <SafeAreaView style={styles.safeArea}>
-        <ColorBox />
-        <SolarizedBox />
-      </SafeAreaView>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="ColorPalette" component={ColorPalette} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
-
-// Can do inline styles, but StyleSheet is better as it caches the styles
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-});
 
 export default App;
