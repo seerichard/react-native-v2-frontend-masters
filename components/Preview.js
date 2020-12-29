@@ -1,9 +1,6 @@
 import React from 'react';
+import { FlatList } from 'react-native';
 import styled from 'styled-components';
-
-const Wrapper = styled.View`
-  flex-direction: row;
-`;
 
 const Box = styled.View`
   height: 40px;
@@ -12,19 +9,13 @@ const Box = styled.View`
   margin-right: 10px;
 `;
 
-const renderBoxes = (firstFive) => (
-  <Wrapper>
-    {firstFive.map(({ hexCode }) => (
-      <Box color={hexCode} />
-    ))}
-  </Wrapper>
+const Preview = ({ colors }) => (
+  <FlatList
+    data={colors.slice(0, 5)}
+    keyExtractor={(item) => item.colorName}
+    renderItem={({ item }) => <Box color={item.hexCode} />}
+    horizontal={true}
+  />
 );
-
-const Preview = ({ colors }) => {
-  const firstFive = colors.slice(0, 5);
-  console.log(firstFive);
-
-  return <>{renderBoxes(firstFive)}</>;
-};
 
 export default Preview;
