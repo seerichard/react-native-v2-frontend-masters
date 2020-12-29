@@ -51,4 +51,5 @@ const SolarizedBox = () => (
     ListHeaderComponent={<Title>Solarized</Title>}
   />
 );
+
 export default SolarizedBox;
