@@ -24,6 +24,7 @@ const Home = ({ navigation }) => (
     <FlatList
       data={COLOR_PALETTES}
       keyExtractor={({ paletteName }) => paletteName}
+      scrollEnabled={false} // No scroll on list
       renderItem={({ item }) => {
         const { paletteName, colors } = item;
 
