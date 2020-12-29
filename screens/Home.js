@@ -1,14 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
-import { SOLARIZED, RAINBOW, FRONTEND_MASTERS } from '../constants/colors';
 import Preview from '../components/Preview';
 
-const COLOR_PALETTES = [
-  { paletteName: 'Solarized', colors: SOLARIZED },
-  { paletteName: 'Rainbow', colors: RAINBOW },
-  { paletteName: 'Frontend Masters', colors: FRONTEND_MASTERS },
-];
+const COLOR_PALETTES_URL =
+  'https://color-palette-api.kadikraman.now.sh/palettes';
 
 const Wrapper = styled.View`
   padding: 0 10px;
@@ -19,31 +15,46 @@ const Title = styled.Text`
   font-weight: bold;
 `;
 
-const Home = ({ navigation }) => (
-  <Wrapper>
-    <FlatList
-      data={COLOR_PALETTES}
-      keyExtractor={({ paletteName }) => paletteName}
-      scrollEnabled={false} // No scroll on list
-      renderItem={({ item }) => {
-        const { paletteName, colors } = item;
+const Home = ({ navigation }) => {
+  const [colorPalettes, setColorPalettes] = useState([]);
 
-        return (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('ColorPalette', {
-                name: paletteName,
-                colors,
-              })
-            }
-          >
-            <Title>{paletteName}</Title>
-            <Preview colors={colors} />
-          </TouchableOpacity>
-        );
-      }}
-    />
-  </Wrapper>
-);
+  const initialisePalettes = useCallback(async () => {
+    const response = await fetch(COLOR_PALETTES_URL);
+    const json = await response.json();
+
+    // If error fetching, return an empty array
+    return response.ok ? setColorPalettes(json) : [];
+  }, []);
+
+  useEffect(() => {
+    initialisePalettes();
+  }, [initialisePalettes]);
+
+  return (
+    <Wrapper>
+      <FlatList
+        data={colorPalettes}
+        keyExtractor={({ paletteName }) => paletteName}
+        renderItem={({ item }) => {
+          const { paletteName, colors } = item;
+
+          return (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('ColorPalette', {
+                  name: paletteName,
+                  colors,
+                })
+              }
+            >
+              <Title>{paletteName}</Title>
+              <Preview colors={colors} />
+            </TouchableOpacity>
+          );
+        }}
+      />
+    </Wrapper>
+  );
+};
 
 export default Home;
