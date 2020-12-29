@@ -17,8 +17,9 @@ const Title = styled.Text`
 
 const Home = ({ navigation }) => {
   const [colorPalettes, setColorPalettes] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const initialisePalettes = useCallback(async () => {
+  const fetchPalettes = useCallback(async () => {
     const response = await fetch(COLOR_PALETTES_URL);
     const json = await response.json();
 
@@ -27,8 +28,16 @@ const Home = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    initialisePalettes();
-  }, [initialisePalettes]);
+    fetchPalettes();
+  }, [fetchPalettes]);
+
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchPalettes();
+
+    // Add a small delay to see the refreshing
+    setTimeout(() => setIsRefreshing(false), 1000);
+  }, [fetchPalettes]);
 
   return (
     <Wrapper>
@@ -52,6 +61,8 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
           );
         }}
+        refreshing={isRefreshing}
+        onRefresh={handleRefresh}
       />
     </Wrapper>
   );
