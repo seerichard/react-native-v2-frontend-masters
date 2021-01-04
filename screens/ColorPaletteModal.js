@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { Text, Alert, useWindowDimensions } from 'react-native';
 import styled from 'styled-components';
 import { useHeaderHeight } from '@react-navigation/stack';
@@ -70,6 +70,24 @@ const ColorPaletteModal = ({ navigation: { goBack } }) => {
     CustomPalettesContext,
   );
 
+  // useCallback seems unncessary in this instance
+  const handleSubmit = useCallback(() => {
+    if (!name) {
+      Alert.alert('Submission failed', 'You must enter a name');
+    } else {
+      setCustomPalettes([
+        {
+          colors: newPalette,
+          id: newPalette[0].hexCode,
+          paletteName: name,
+        },
+        ...customPalettes,
+      ]);
+
+      goBack();
+    }
+  }, [name, newPalette, customPalettes, setCustomPalettes, goBack]);
+
   return (
     <Wrapper windowHeight={windowHeight} headerHeight={headerHeight}>
       <NameInput name={name} setName={setName} />
@@ -86,24 +104,7 @@ const ColorPaletteModal = ({ navigation: { goBack } }) => {
       />
       {/* Maybe use a <VirtualizedList/>? */}
       <SubmitWrapper>
-        <SubmitButton
-          onPress={() => {
-            if (name === '') {
-              Alert.alert('Submission failed', 'You must enter a name');
-            } else {
-              setCustomPalettes([
-                {
-                  colors: newPalette,
-                  id: newPalette[0].hexCode,
-                  paletteName: name,
-                },
-                ...customPalettes,
-              ]);
-
-              goBack();
-            }
-          }}
-        >
+        <SubmitButton onPress={handleSubmit}>
           <SubmitText>Submit!</SubmitText>
         </SubmitButton>
       </SubmitWrapper>
