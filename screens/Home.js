@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
+import CustomPalettesContext from '../context';
 import Preview from '../components/Preview';
 
 const COLOR_PALETTES_URL =
@@ -26,14 +27,18 @@ const ModalTitle = styled.Text`
 const Home = ({ navigation }) => {
   const [colorPalettes, setColorPalettes] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const { customPalettes } = useContext(CustomPalettesContext);
 
   const fetchPalettes = useCallback(async () => {
     const response = await fetch(COLOR_PALETTES_URL);
     const json = await response.json();
 
-    // If error fetching, return an empty array
-    return response.ok ? setColorPalettes(json) : [];
-  }, []);
+    // If error fetching, return any custom palettes
+    // This is not best practices but I'm feeling lazy
+    return response.ok
+      ? setColorPalettes([...customPalettes, ...json])
+      : customPalettes;
+  }, [customPalettes]);
 
   useEffect(() => {
     fetchPalettes();

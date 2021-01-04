@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text, Alert, useWindowDimensions } from 'react-native';
 import styled from 'styled-components';
 import { useHeaderHeight } from '@react-navigation/stack';
+import CustomPalettesContext from '../context';
 import ColorItem from '../components/ColorItem';
 import MODAL_COLORS from '../constants/modalColors';
 
@@ -38,13 +39,11 @@ const NameInput = ({ name, setName }) => (
 const StyledFlatList = styled.FlatList`
   flex: 1;
   height: auto;
-  /* border: 1px solid purple; */
 `;
 
 const SubmitWrapper = styled.View`
   height: 100px;
   padding-top: 20px;
-  /* border: 1px solid red; */
 `;
 
 const SubmitButton = styled.TouchableOpacity`
@@ -62,13 +61,14 @@ const SubmitText = styled.Text`
   font-weight: bold;
 `;
 
-const ColorPaletteModal = () => {
+const ColorPaletteModal = ({ navigation: { goBack } }) => {
   const windowHeight = useWindowDimensions().height;
   const headerHeight = useHeaderHeight();
   const [name, setName] = useState('');
   const [newPalette, setNewPalette] = useState([]);
-
-  console.log('newPalette:', newPalette);
+  const { customPalettes, setCustomPalettes } = useContext(
+    CustomPalettesContext,
+  );
 
   return (
     <Wrapper windowHeight={windowHeight} headerHeight={headerHeight}>
@@ -90,6 +90,17 @@ const ColorPaletteModal = () => {
           onPress={() => {
             if (name === '') {
               Alert.alert('Submission failed', 'You must enter a name');
+            } else {
+              setCustomPalettes([
+                {
+                  colors: newPalette,
+                  id: newPalette[0].hexCode,
+                  paletteName: name,
+                },
+                ...customPalettes,
+              ]);
+
+              goBack();
             }
           }}
         >

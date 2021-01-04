@@ -31,7 +31,6 @@ const ColorItem = ({ colorName, hexCode, newPalette, handleNewPalette }) => {
       <Switch
         value={isEnabled}
         onValueChange={() => {
-          console.log('Changing value');
           updatePalette(!isEnabled);
           setIsEnabled(!isEnabled);
         }}
