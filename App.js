@@ -19,22 +19,21 @@ const MainStackScreen = () => (
   </MainStack.Navigator>
 );
 
-const App = () => {
-  return (
-    <NavigationContainer>
-      <RootStack.Navigator mode="modal">
-        <RootStack.Screen
-          name="Main"
-          component={MainStackScreen}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name="ColorPaletteModal"
-          component={ColorPaletteModal}
-        />
-      </RootStack.Navigator>
-    </NavigationContainer>
-  );
-};
+const App = () => (
+  <NavigationContainer>
+    <RootStack.Navigator mode="modal">
+      <RootStack.Screen
+        name="Main"
+        component={MainStackScreen}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="ColorPaletteModal"
+        component={ColorPaletteModal}
+        options={{ title: 'Add New Palette', headerBackTitle: 'Done' }}
+      />
+    </RootStack.Navigator>
+  </NavigationContainer>
+);
 
 export default App;

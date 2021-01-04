@@ -7,12 +7,20 @@ const COLOR_PALETTES_URL =
   'https://color-palette-api.kadikraman.now.sh/palettes';
 
 const Wrapper = styled.View`
-  padding: 0 10px;
+  padding-left: 10px;
+  margin-bottom: 30px;
 `;
 
 const Title = styled.Text`
   margin: 20px 0 10px;
   font-weight: bold;
+`;
+
+const ModalTitle = styled.Text`
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: green;
 `;
 
 const Home = ({ navigation }) => {
@@ -69,7 +77,7 @@ const Home = ({ navigation }) => {
               navigation.navigate('ColorPaletteModal');
             }}
           >
-            <Title>Launch Modal</Title>
+            <ModalTitle>Add a colour scheme</ModalTitle>
           </TouchableOpacity>
         }
       />
